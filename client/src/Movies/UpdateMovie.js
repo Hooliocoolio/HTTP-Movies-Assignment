@@ -7,7 +7,8 @@ const initialMovie = {
   director: "",
   metascore: "",
   stars: {},
-  description:""
+  description:"",
+  imageUrl:""
 };
 
 const UpdateForm = props => {
@@ -96,6 +97,14 @@ const UpdateForm = props => {
           onChange={changeHandler}
           placeholder="Description"
           value={movie.description}
+        />
+        <div className="baseline" />
+        <input
+          type="string"
+          name="imageUrl"
+          onChange={changeHandler}
+          placeholder="Image"
+          value={movie.imageUrl}
         />
         <div className="baseline" />
 

@@ -28,6 +28,8 @@ const App = () => {
 
   return (
     <div className="app">
+
+    <h1>Hoolio's Fav MovieList</h1>
       <SavedList list={savedList} />
 
       <Route exact path="/">
