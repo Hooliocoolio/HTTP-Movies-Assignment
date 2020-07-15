@@ -1,85 +1,77 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
-
-const initialMovie = {
-    title: "",
-    director: "",
-    metascore: "",
-    stars: {},
-    description:""
+class CreateMovie extends Component {
+  state = {
+    title: '',
+    director: '',
+    metaScore: 0,
+    actor: '',
+    stars: []
   };
 
-  const changeHandler = ev => {
-    ev.persist();
-    let value = ev.target.value;
-    if (ev.target.name === "metascore") {
-      value = parseInt(value, 10);
-    }
-
-    setMovie({
-      ...movie,
-      [ev.target.name]: value
-    });
+  handleAddstars = () => {
+    const { stars } = this.state;
+    stars.push(this.state.actor);
+    this.setState({ actor: '', stars });
   };
 
-  return (
-    <div className="movie-card">
-      <h2>Update Movie</h2>
-      <form onSubmit={handleSubmit}>
+  handleTextInput = e => {
+    console.log(e.target.value);
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleSubmitMovie = () => {
+    const { stars, title, metaScore, director } = this.state;
+    const newMovie = { stars, title, metaScore, director };
+    axios
+      .post('http://localhost:3333/api/movies', newMovie)
+      .then(response => {
+        this.props.history.push('/');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  render() {
+    return (
+      <div>
         <input
           type="text"
+          placeholder="Movie Title"
+          value={this.state.title}
+          onChange={this.handleTextInput}
           name="title"
-          onChange={changeHandler}
-          placeholder="Title"
-          value={movie.title}
         />
-        <div className="baseline" />
-
         <input
           type="text"
-          name="director"
-          onChange={changeHandler}
           placeholder="Director"
-          value={movie.director}
+          value={this.state.director}
+          onChange={this.handleTextInput}
+          name="director"
         />
-        <div className="baseline" />
-
         <input
-          type="number"
-          name="metascore"
-          onChange={changeHandler}
-          placeholder="Image"
-          value={movie.metascore}
+          type="text"
+          placeholder="Meta Score"
+          value={this.state.metaScore}
+          onChange={this.handleTextInput}
+          name="metaScore"
         />
-        <div className="baseline" />
-
         <input
-          type="string"
-          name="stars"
-          onChange={changeHandler}
-          placeholder="Description"
-          value={movie.stars}
+          type="text"
+          placeholder="..Add actor"
+          value={this.state.actor}
+          onChange={this.handleTextInput}
+          name="actor"
         />
-        <div className="baseline" />
+        <button onClick={this.handleAddstars}>Add Actor to List</button>
+        <button onClick={this.handleSubmitMovie}>Save Movie</button>
+        {this.state.stars.map(actor => {
+          return <div>{actor}</div>;
+        })}
+      </div>
+    );
+  }
+}
 
-        <input
-          type="string"
-          name="description"
-          onChange={changeHandler}
-          placeholder="Description"
-          value={movie.description}
-        />
-        <div className="baseline" />
-        <input
-          type="string"
-          name="imageUrl"
-          onChange={changeHandler}
-          placeholder="Image"
-          value={movie.imageUrl}
-        />
-        <div className="baseline" />
-
-        <button className="md-button form-button">Add Movie</button>
-      </form>
-    </div>
-  );
+export default CreateMovie;
