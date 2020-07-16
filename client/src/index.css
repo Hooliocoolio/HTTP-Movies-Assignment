@@ -5,20 +5,6 @@ body {
   background-color: #f2f2f2;
 }
 
-.app {
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  background-color: black;
-}
-
-.header {
-  color: hotpink;
-  font-size: 75px;
-
-}
-
 .movie-card {
   background-color: #fff;
   border: 0;
@@ -30,7 +16,7 @@ body {
   margin: 1rem auto;
 }
 
-.movie-director {
+movie-director {
   padding: 4px 0;
   font-size: 0.8rem;
 }
@@ -43,11 +29,11 @@ body {
   padding: 1rem;
   cursor: pointer;
   position: relative;
-  margin: 1rem ;
+  margin: 1rem auto;
   width: 75%;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .saved-list h3 {
@@ -66,38 +52,16 @@ body {
   position: relative;
   width: 75%;
   margin: 1rem auto;
-  
 }
 .save-button {
-  position: relative;
+  position: absolute;
   top: 25px;
   right: 25px;
   border: 1px solid grey;
   padding: 5px 10px;
   background-color: lightseagreen;
-  text-align: center;
-  display: inline;
-  z-index: 2;
 }
 .save-button:hover {
-  background-color: green;
-  color: white;
-}
-
-.edit-button {
-  position: relative;
-  top: 25px;
-  right: 25px;
-  border: 1px solid grey;
-  padding: 5px 10px;
-  background-color: lightseagreen;
-  text-align: center;
-  display: inline;
-  margin:1%;
-  z-index: 2;
-}
-
-.edit-button:hover {
   background-color: green;
   color: white;
 }

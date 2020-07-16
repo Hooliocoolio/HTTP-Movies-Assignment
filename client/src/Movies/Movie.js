@@ -1,54 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams, useHistory} from 'react-router-dom';
 import MovieCard from './MovieCard';
-export default class Movie extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      movie: null
-    };
-  }
+ 
+ 
 
-  componentDidMount() {
-    this.fetchMovie(this.props.match.params.id);
-  }
+function Movie({ addToSavedList }){
+    const [ movie, setMovie ] = useState(null);
+    const params = useParams();
+    const { push } = useHistory();
+   
 
-  componentWillReceiveProps(newProps) {
-    if (this.props.match.params.id !== newProps.match.params.id) {
-      this.fetchMovie(newProps.match.params.id);
+    const fetchMovie = (id) => {
+        axios
+            .get(`http://localhost:5000/api/movies/${id}`)
+            .then((res) => setMovie(res.data))
+            .catch((err) => console.log(err.response))
     }
-  }
+ 
+  
+    
+   
 
-  fetchMovie = id => {
-    const myPromise = axios.get(`http://localhost:3333/api/movies/${id}`);
-    myPromise
-      .then(response => {
-        this.setState({ movie: response.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    // this function needs to fire off a get request to localhost:5000/api/movies/:id
-    // note that the id is dynamic.
-  };
+    const saveMovie = () => {
+      if (fetchMovie !== movie.id) {
+        addToSavedList(movie);
+      } else {
+        return "You already saved this movie"
+      }
+    }
 
-  saveMovie = () => {
-    const addToSavedList = this.props.addToSavedList;
-    addToSavedList(this.state.movie);
-  };
+    useEffect(() => {
+        fetchMovie(params.id);
+    }, [params.id]);
 
-  render() {
-    if (!this.state.movie) {
-      return <div>Loading movie information...</div>;
+    if(!movie) {
+        return <div>Loading movie information...</div>
     }
 
     return (
-      <div className="save-wrapper">
-        <MovieCard movie={this.state.movie} />
-        <div className="save-button" onClick={this.saveMovie}>
-          Save
-        </div>
+        <div className="save-wrapper">
+            <MovieCard movie={movie} />
+            <div className="save-button" onClick={saveMovie}>
+                Save
+            </div>
+            <div className="update-button">
+           <div
+        className="update-button"
+        onClick={() => push(`/update-movie/${movie.id}`)}
+      >
+        Edit
       </div>
-    );
-  }
+            </div>
+            
+        </div>
+
+    )
+
 }
+
+export default Movie;
