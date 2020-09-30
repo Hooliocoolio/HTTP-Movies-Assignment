@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
-import SavedList from './Movies/SavedList';
-import MovieList from './Movies/MovieList';
-import Movie from './Movies/Movie';
-import UpdateForm from './Movies/UpdateMovie';
-import axios from  'axios';
+import React, { useState, useEffect } from "react";
+import { Route, Link } from "react-router-dom";
+import SavedList from "./Movies/SavedList";
+import MovieList from "./Movies/MovieList";
+import UpdateMovie from "./Movies/UpdateMovie";
+import CreateMovie from "./Movies/AddMovie";
+import Movie from "./Movies/Movie";
+import axios from 'axios';
 import logo from './logo.svg';
-import './App.css';
-
+import './App.css'
 
 
 function App () {
@@ -46,6 +46,7 @@ function App () {
       <nav className="nav">
         <div className="home-button">
                     <Link to="/">Home</Link>
+                    <Link to="/add-movie">Add</Link>
                 </div>
                 </nav>
       <SavedList list={savedList} />
@@ -58,7 +59,11 @@ function App () {
       </Route>
       <Route
         path="/update-movie/:id"
-        render={() => <UpdateForm movie={movieList} setMovie={setMovieList} />}
+        render={() => <UpdateMovie movie={movieList} setMovie={setMovieList} />}
+      />
+       <Route
+        path="/add-movie/:id"
+        render={() => <CreateMovie movie={movieList} setMovie={setMovieList} />}
       />
     </div>
   );

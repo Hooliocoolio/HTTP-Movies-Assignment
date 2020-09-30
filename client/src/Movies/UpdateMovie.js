@@ -4,22 +4,24 @@ import axios from "axios";
 
 const initialMovie = {
   title: "",
-  metascore: "",
   director: "",
-  stars: {}
+  metascore: "",
+  stars: {},
+  description:"",
+  imageUrl:""
 };
 
 const UpdateForm = props => {
-  const { push } = useHistory();
   const [movie, setMovie] = useState(initialMovie);
+  const { push } = useHistory();
   const { id } = useParams();
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
       .then(res => {
-        // res.data
+        console.log("GET REQUEST", res.data);
         setMovie(res.data);
-      })
+      }) // set item to response.data
       .catch(err => console.log(err));
   }, [id]);
 
@@ -42,23 +44,32 @@ const UpdateForm = props => {
     axios
       .put(`http://localhost:5000/api/movies/${id}`, movie)
       .then(res => {
-        // res.data
+        console.log("PUT REQUEST", res.data);
          setMovie(res.data);
-        push(`/`);
+        push(`/movies/${id}`);
       })
       .catch(err => console.log(err));
   };
 
   return (
-    <div>
-      <h2>Update Item</h2>
+    <div className="movie-card">
+      <h2>Update Movie</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="title"
           onChange={changeHandler}
-          placeholder="title"
+          placeholder="Title"
           value={movie.title}
+        />
+        <div className="baseline" />
+
+        <input
+          type="text"
+          name="director"
+          onChange={changeHandler}
+          placeholder="Director"
+          value={movie.director}
         />
         <div className="baseline" />
 
@@ -66,25 +77,34 @@ const UpdateForm = props => {
           type="number"
           name="metascore"
           onChange={changeHandler}
-          placeholder="metascore"
+          placeholder="Image"
           value={movie.metascore}
         />
         <div className="baseline" />
 
         <input
           type="string"
-          name="director"
+          name="stars"
           onChange={changeHandler}
-          placeholder="Director"
-          value={movie.director}
+          placeholder="Description"
+          value={movie.stars}
+        />
+        <div className="baseline" />
+
+        <input
+          type="string"
+          name="description"
+          onChange={changeHandler}
+          placeholder="Description"
+          value={movie.description}
         />
         <div className="baseline" />
         <input
           type="string"
-          name="stars"
+          name="imageUrl"
           onChange={changeHandler}
-          placeholder="Stars"
-          value={movie.stars}
+          placeholder="Image"
+          value={movie.imageUrl}
         />
         <div className="baseline" />
 

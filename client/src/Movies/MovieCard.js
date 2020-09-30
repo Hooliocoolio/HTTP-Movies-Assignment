@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MovieCard = props => {
-  const { title, director, metascore, stars } = props.movie;
+  const { title, director, metascore, stars, imageUrl } = props.movie;
   return (
     <div className="movie-card">
       <h2>{title}</h2>
@@ -18,6 +18,7 @@ const MovieCard = props => {
           {star}
         </div>
       ))}
+      <div>{(imageUrl) ? <img src={imageUrl} alt="movie" /> : null} </div>
     </div>
   );
 };

@@ -23,7 +23,11 @@ function Movie({ addToSavedList }){
    
 
     const saveMovie = () => {
+      if (fetchMovie !== movie.id) {
         addToSavedList(movie);
+      } else {
+        return "You already saved this movie"
+      }
     }
 
     useEffect(() => {
@@ -41,12 +45,12 @@ function Movie({ addToSavedList }){
                 Save
             </div>
             <div className="update-button">
-           <button
-        className="md-button"
+           <div
+        className="update-button"
         onClick={() => push(`/update-movie/${movie.id}`)}
       >
         Edit
-      </button>
+      </div>
             </div>
             
         </div>
